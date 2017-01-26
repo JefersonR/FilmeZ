@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">FilmeZ</string>
+
+    <!--Drawer-->
+    <string name="closeDrawer">Navigation View</string>
+    <string name="openDrawer">Navigation View Closed</string>
+
+    <!--Menu-->
+    <string name="home">Principal</string>
+    <string name="my_movies">Meus filmes</string>
+    <string name="about">Sobre</string>
+
+    <!--Connection-->
+    <string name="connection_error">Problema com a conexão. Conecte e tente novamente!</string>
+    <string name="connection_fail">Houve uma falha nos nossos servidores, tente novamente.</string>
+
+
+</resources>

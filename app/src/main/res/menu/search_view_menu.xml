@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:yourapp="http://schemas.android.com/tools">
+
+    <!-- Search Widget -->
+    <item
+        app:showAsAction="always|collapseActionView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listsearch"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title=""
+        android:iconifiedByDefault="true"
+        android:showAsAction="ifRoom|withText|always|collapseActionView"
+        android:actionViewClass="android.widget.SearchView"
+        yourapp:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_voice"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:title="Voice"
+        app:showAsAction="collapseActionView|always"
+        />
+
+
+</menu>
