@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -217,6 +218,7 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
 
 
                 if(ConnectionChecker.checkConnection(getActivity())){
+                    hideKeyboard();
                     doRequest(query);
                 }
 
@@ -239,6 +241,7 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                 Log.e("SUGGESTION", suggestion);
                 searchView.setQuery(suggestion, false);
                 if(ConnectionChecker.checkConnection(getActivity())){
+                    hideKeyboard();
                     doRequest(suggestion);
                 }
                 return true;
@@ -345,6 +348,12 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         }
     }
 
-
+    public void hideKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 }
