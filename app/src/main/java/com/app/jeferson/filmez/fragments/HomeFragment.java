@@ -10,8 +10,12 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -21,17 +25,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.app.jeferson.filmez.MainActivity;
 import com.app.jeferson.filmez.R;
+import com.app.jeferson.filmez.connectionFactory.LoggingInterceptor;
 import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
+import com.app.jeferson.filmez.movies.CardViewItems;
+import com.app.jeferson.filmez.movies.CardViewRecyclerAdapter;
 import com.app.jeferson.filmez.providers.MySuggestionProvider;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
+import com.app.jeferson.filmez.util.ConnectionChecker;
 import com.app.jeferson.filmez.util.Log;
+import com.app.jeferson.filmez.util.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 /**
@@ -39,12 +54,21 @@ import java.util.Locale;
  */
 public class HomeFragment extends Fragment implements ActivityStartProperties, RetrofitInterface {
     //Ui Elements
-    private ImageView voiceSearch;
     private  Menu menu;
     private SearchView searchView;
     private TextView txtSearch;
     private View view;
+    private ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private TextView txtNothing;
+    private CoordinatorLayout coordinator;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     //Atributtes
+    private ArrayList<CardViewItems.Search> items;
+    private CardViewItems cardViewListItem;
+
+
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
@@ -80,17 +104,32 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
     @Override
     public void setLayout() {
         txtSearch =(TextView)view.getRootView().findViewById(R.id.txt_search);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.container);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerList);
+        progressBar = (ProgressBar)   view.findViewById(R.id.progressBar);
+        txtNothing =  (TextView)         view.findViewById(R.id.txt_nothing);
+        coordinator =  (CoordinatorLayout)  view.findViewById(R.id.coordinator);
 
     }
 
     @Override
     public void setProperties() {
+        items = new ArrayList<CardViewItems.Search>();
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
 
     }
 
     @Override
     public void listeners() {
+        mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRequest();
+            }
 
+        });
 
     }
 
@@ -103,7 +142,50 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
 
     @Override
     public void doRequest(String... params) {
+        progressBar.setVisibility(View.VISIBLE);
+        retrofit.client().interceptors().add(new LoggingInterceptor());
+        Call<CardViewItems> call = apiService.searchMovie(params[0]);
+        call.enqueue(new Callback<CardViewItems>() {
 
+            @Override
+            public void onResponse(Response<CardViewItems> response, Retrofit retrofit) {
+                try {
+                    items.clear();
+                    txtNothing.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    if(response.isSuccess() ){
+                        if(response.body().getSearch() != null && !response.body().getSearch().isEmpty()){
+                            for(CardViewItems.Search data : response.body().getSearch()){
+                                items.add(data);
+                            }
+                            recyclerView.setAdapter(new CardViewRecyclerAdapter(items));
+
+                        }else{
+                            txtNothing.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                    }
+
+                } catch (Exception e) {
+                    Log.e("ERROR", e.getMessage());
+                    progressBar.setVisibility(View.GONE);
+                    txtNothing.setVisibility(View.VISIBLE);
+                    Snackbar.make(coordinator,getString(R.string.connection_fail) );
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                try {
+                    progressBar.setVisibility(View.GONE);
+                    txtNothing.setVisibility(View.VISIBLE);
+                    Snackbar.make(coordinator, getActivity().getString(R.string.connection_fail));
+                }catch (Exception e){
+                    e.getMessage();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -133,6 +215,11 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                         MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
 
+
+                if(ConnectionChecker.checkConnection(getActivity())){
+                    doRequest(query);
+                }
+
                 return true;
             }
 
@@ -151,6 +238,9 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                 String suggestion = getSuggestion(position);
                 Log.e("SUGGESTION", suggestion);
                 searchView.setQuery(suggestion, false);
+                if(ConnectionChecker.checkConnection(getActivity())){
+                    doRequest(suggestion);
+                }
                 return true;
             }
 

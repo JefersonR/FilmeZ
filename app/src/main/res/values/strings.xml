@@ -13,6 +13,7 @@
     <!--Connection-->
     <string name="connection_error">Problema com a conexão. Conecte e tente novamente!</string>
     <string name="connection_fail">Houve uma falha nos nossos servidores, tente novamente.</string>
+    <string name="my_movies_str">Meus filmes</string>
 
 
 </resources>

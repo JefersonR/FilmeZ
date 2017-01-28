@@ -23,7 +23,7 @@ public class LoggingInterceptor implements Interceptor {
         long t1 = System.nanoTime();
         String requestLog = String.format("Sending request %s on %s%n%s",
                 request.url(), chain.connection(), request.headers());
-        if (request.method().compareToIgnoreCase("post") == 0) {
+        if (request.method().compareToIgnoreCase("post") == 0 || request.method().compareToIgnoreCase("put") == 0) {
             requestLog = "\n" + requestLog + "\n" + bodyToString(request);
         }
         com.squareup.okhttp.Response response = chain.proceed(request);

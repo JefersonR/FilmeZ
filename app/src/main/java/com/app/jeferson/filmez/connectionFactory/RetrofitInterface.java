@@ -12,8 +12,7 @@ import retrofit.Retrofit;
  */
 public interface RetrofitInterface {
     //Define uma interface para conexão com o servidro.
-//    public static final String BASE_URL = "http://";
-    public static final String BASE_URL =  "";
+    public static final String BASE_URL =  "http://www.omdbapi.com";
     public Gson gson = new GsonBuilder()
             .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
             .registerTypeAdapterFactory(new ArrayAdapterFactory())
