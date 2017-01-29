@@ -397,4 +397,148 @@ public class MovieDetail implements Serializable
         this.response = response;
     }
 
+    @Override
+    public String toString() {
+        return "MovieDetail{" +
+                "title='" + title + '\'' +
+                ", year='" + year + '\'' +
+                ", rated='" + rated + '\'' +
+                ", released='" + released + '\'' +
+                ", runtime='" + runtime + '\'' +
+                ", genre='" + genre + '\'' +
+                ", director='" + director + '\'' +
+                ", writer='" + writer + '\'' +
+                ", actors='" + actors + '\'' +
+                ", plot='" + plot + '\'' +
+                ", language='" + language + '\'' +
+                ", country='" + country + '\'' +
+                ", awards='" + awards + '\'' +
+                ", poster='" + poster + '\'' +
+                ", metascore='" + metascore + '\'' +
+                ", imdbRating='" + imdbRating + '\'' +
+                ", imdbVotes='" + imdbVotes + '\'' +
+                ", imdbID='" + imdbID + '\'' +
+                ", type='" + type + '\'' +
+                ", tomatoMeter='" + tomatoMeter + '\'' +
+                ", tomatoImage='" + tomatoImage + '\'' +
+                ", tomatoRating='" + tomatoRating + '\'' +
+                ", tomatoReviews='" + tomatoReviews + '\'' +
+                ", tomatoFresh='" + tomatoFresh + '\'' +
+                ", tomatoRotten='" + tomatoRotten + '\'' +
+                ", tomatoConsensus='" + tomatoConsensus + '\'' +
+                ", tomatoUserMeter='" + tomatoUserMeter + '\'' +
+                ", tomatoUserRating='" + tomatoUserRating + '\'' +
+                ", tomatoUserReviews='" + tomatoUserReviews + '\'' +
+                ", tomatoURL='" + tomatoURL + '\'' +
+                ", dVD='" + dVD + '\'' +
+                ", boxOffice='" + boxOffice + '\'' +
+                ", production='" + production + '\'' +
+                ", website='" + website + '\'' +
+                ", response='" + response + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MovieDetail that = (MovieDetail) o;
+
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (year != null ? !year.equals(that.year) : that.year != null) return false;
+        if (rated != null ? !rated.equals(that.rated) : that.rated != null) return false;
+        if (released != null ? !released.equals(that.released) : that.released != null)
+            return false;
+        if (runtime != null ? !runtime.equals(that.runtime) : that.runtime != null) return false;
+        if (genre != null ? !genre.equals(that.genre) : that.genre != null) return false;
+        if (director != null ? !director.equals(that.director) : that.director != null)
+            return false;
+        if (writer != null ? !writer.equals(that.writer) : that.writer != null) return false;
+        if (actors != null ? !actors.equals(that.actors) : that.actors != null) return false;
+        if (plot != null ? !plot.equals(that.plot) : that.plot != null) return false;
+        if (language != null ? !language.equals(that.language) : that.language != null)
+            return false;
+        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (awards != null ? !awards.equals(that.awards) : that.awards != null) return false;
+        if (poster != null ? !poster.equals(that.poster) : that.poster != null) return false;
+        if (metascore != null ? !metascore.equals(that.metascore) : that.metascore != null)
+            return false;
+        if (imdbRating != null ? !imdbRating.equals(that.imdbRating) : that.imdbRating != null)
+            return false;
+        if (imdbVotes != null ? !imdbVotes.equals(that.imdbVotes) : that.imdbVotes != null)
+            return false;
+        if (imdbID != null ? !imdbID.equals(that.imdbID) : that.imdbID != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (tomatoMeter != null ? !tomatoMeter.equals(that.tomatoMeter) : that.tomatoMeter != null)
+            return false;
+        if (tomatoImage != null ? !tomatoImage.equals(that.tomatoImage) : that.tomatoImage != null)
+            return false;
+        if (tomatoRating != null ? !tomatoRating.equals(that.tomatoRating) : that.tomatoRating != null)
+            return false;
+        if (tomatoReviews != null ? !tomatoReviews.equals(that.tomatoReviews) : that.tomatoReviews != null)
+            return false;
+        if (tomatoFresh != null ? !tomatoFresh.equals(that.tomatoFresh) : that.tomatoFresh != null)
+            return false;
+        if (tomatoRotten != null ? !tomatoRotten.equals(that.tomatoRotten) : that.tomatoRotten != null)
+            return false;
+        if (tomatoConsensus != null ? !tomatoConsensus.equals(that.tomatoConsensus) : that.tomatoConsensus != null)
+            return false;
+        if (tomatoUserMeter != null ? !tomatoUserMeter.equals(that.tomatoUserMeter) : that.tomatoUserMeter != null)
+            return false;
+        if (tomatoUserRating != null ? !tomatoUserRating.equals(that.tomatoUserRating) : that.tomatoUserRating != null)
+            return false;
+        if (tomatoUserReviews != null ? !tomatoUserReviews.equals(that.tomatoUserReviews) : that.tomatoUserReviews != null)
+            return false;
+        if (tomatoURL != null ? !tomatoURL.equals(that.tomatoURL) : that.tomatoURL != null)
+            return false;
+        if (dVD != null ? !dVD.equals(that.dVD) : that.dVD != null) return false;
+        if (boxOffice != null ? !boxOffice.equals(that.boxOffice) : that.boxOffice != null)
+            return false;
+        if (production != null ? !production.equals(that.production) : that.production != null)
+            return false;
+        if (website != null ? !website.equals(that.website) : that.website != null) return false;
+        return response != null ? response.equals(that.response) : that.response == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (rated != null ? rated.hashCode() : 0);
+        result = 31 * result + (released != null ? released.hashCode() : 0);
+        result = 31 * result + (runtime != null ? runtime.hashCode() : 0);
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
+        result = 31 * result + (director != null ? director.hashCode() : 0);
+        result = 31 * result + (writer != null ? writer.hashCode() : 0);
+        result = 31 * result + (actors != null ? actors.hashCode() : 0);
+        result = 31 * result + (plot != null ? plot.hashCode() : 0);
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (awards != null ? awards.hashCode() : 0);
+        result = 31 * result + (poster != null ? poster.hashCode() : 0);
+        result = 31 * result + (metascore != null ? metascore.hashCode() : 0);
+        result = 31 * result + (imdbRating != null ? imdbRating.hashCode() : 0);
+        result = 31 * result + (imdbVotes != null ? imdbVotes.hashCode() : 0);
+        result = 31 * result + (imdbID != null ? imdbID.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (tomatoMeter != null ? tomatoMeter.hashCode() : 0);
+        result = 31 * result + (tomatoImage != null ? tomatoImage.hashCode() : 0);
+        result = 31 * result + (tomatoRating != null ? tomatoRating.hashCode() : 0);
+        result = 31 * result + (tomatoReviews != null ? tomatoReviews.hashCode() : 0);
+        result = 31 * result + (tomatoFresh != null ? tomatoFresh.hashCode() : 0);
+        result = 31 * result + (tomatoRotten != null ? tomatoRotten.hashCode() : 0);
+        result = 31 * result + (tomatoConsensus != null ? tomatoConsensus.hashCode() : 0);
+        result = 31 * result + (tomatoUserMeter != null ? tomatoUserMeter.hashCode() : 0);
+        result = 31 * result + (tomatoUserRating != null ? tomatoUserRating.hashCode() : 0);
+        result = 31 * result + (tomatoUserReviews != null ? tomatoUserReviews.hashCode() : 0);
+        result = 31 * result + (tomatoURL != null ? tomatoURL.hashCode() : 0);
+        result = 31 * result + (dVD != null ? dVD.hashCode() : 0);
+        result = 31 * result + (boxOffice != null ? boxOffice.hashCode() : 0);
+        result = 31 * result + (production != null ? production.hashCode() : 0);
+        result = 31 * result + (website != null ? website.hashCode() : 0);
+        result = 31 * result + (response != null ? response.hashCode() : 0);
+        return result;
+    }
 }

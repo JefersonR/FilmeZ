@@ -52,5 +52,10 @@
         <item name="android:background">#FFF</item>
     </style>
 
+    <style name="CollapsedAppBarTopic" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 
 </resources>
