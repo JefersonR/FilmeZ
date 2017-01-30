@@ -2,12 +2,15 @@ package com.app.jeferson.filmez;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,6 +25,7 @@ import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -46,11 +50,24 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
     private TextView txtGenre;
     private TextView txtReleased;
     private TextView txtLanguage;
+    private ImageView bgheader;
+    private ProgressBar progress;
+    private TextView txtReviews;
+    private TextView txtAwards;
+    private TextView txtPlot;
+    private TextView txtWriter;
+    private TextView txtActors;
+    private TextView txtProductions;
+    private TextView txtSite;
+    private TextView txtCountry;
+    private Button btnControl;
 
     //Attributes
     private MovieDetailModel movie;
     private boolean inMyList = false;
     private RealmController realmController;
+
+
 
 
     @Override
@@ -79,6 +96,18 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         txtGenre = (TextView)findViewById( R.id.txt_genre );
         txtReleased = (TextView)findViewById( R.id.txt_released );
         txtLanguage = (TextView)findViewById( R.id.txt_language );
+        bgheader = (ImageView)findViewById( R.id.bgheader );
+        progress = (ProgressBar)findViewById( R.id.progress );
+        txtReviews = (TextView)findViewById( R.id.txt_reviews );
+        txtAwards = (TextView)findViewById( R.id.txt_awards );
+        txtPlot = (TextView)findViewById( R.id.txt_plot );
+        txtWriter = (TextView)findViewById( R.id.txt_writer );
+        txtActors = (TextView)findViewById( R.id.txt_actors );
+        txtProductions = (TextView)findViewById( R.id.txt_productions );
+        txtSite = (TextView)findViewById( R.id.txt_site );
+        txtCountry = (TextView)findViewById( R.id.txt_country );
+        btnControl = (Button)findViewById( R.id.btn_control );
+
     }
 
     @Override
@@ -109,6 +138,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
     }
 
     private void populate(MovieDetailModel movie) {
+        final String str_empty = "N/A";
         collapsingToolbar.setTitle(movie.getTitle());
         if(inMyList){
             fabSave.setVisibility(View.GONE);
@@ -117,9 +147,93 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         }else{
             fabSave.setVisibility(View.VISIBLE);
             fabDelete.setVisibility(View.GONE);
+        }
+        btnControl();
+        Picasso.with(MovieDetailActivity.this)
+                .load(movie.getPoster())
+                .error(R.drawable.ic_poster_standart)
+                .into(imgPoster, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressImg.setVisibility(View.GONE);
+                    }
 
+                    @Override
+                    public void onError() {
+                        progressImg.setVisibility(View.GONE);
+                    }
+                });
+
+        txtTitle.setText(movie.getTitle());
+        String director = "Por: "+ movie.getDirector();
+        txtDirector.setText(director);
+        String runtime = "Duração: "+ movie.getRuntime();
+        txtDuration.setText(runtime);
+        String genre = "Gênero: "+ movie.getGenre();
+        txtGenre.setText(genre);
+        String released = "Lançamento: "+ movie.getReleased();
+        txtReleased.setText(released);
+        String language = "Idioma: "+ movie.getLanguage();
+        txtLanguage.setText(language);
+        String imdb        = (!movie.getImdbRating().equals(str_empty)?"IMDB: " + movie.getImdbRating() +"/10 - "+ movie.getImdbVotes() + " votos \n":"");
+        String rottenUsers = (!movie.getTomatoUserRating().equals(str_empty))?"Rotten usuários: " + movie.getTomatoUserRating() +"/5 - "+ movie.getTomatoUserReviews() + " votos \n":"";
+        String rotten      = (!movie.getTomatoRating().equals(str_empty))?"Rotten críticos: " + movie.getTomatoRating() +"/10 - "+ movie.getTomatoReviews() + " votos \n":"";
+        String metascore   = (!movie.getMetascore().equals(str_empty))?"Metascore: " + movie.getMetascore() +"/100":"";
+        String reviews = imdb + rotten + rottenUsers + metascore;
+        txtReviews.setText(reviews);
+        txtAwards.setText(movie.getAwards().equals(str_empty)?"Nenhuma informação disponível.":movie.getAwards());
+        txtPlot.setText(movie.getPlot().equals(str_empty)?"Nenhuma informação disponível.":movie.getPlot());
+
+        if(movie.getWriter().equals(str_empty)){
+            txtWriter.setVisibility(View.GONE);
+        }else{
+            String writter = "Escrito por: "+ movie.getWriter();
+            txtWriter.setText(writter);
+        }
+        if(movie.getActors().equals(str_empty)){
+            txtActors.setVisibility(View.GONE);
+        }else{
+            String actors = "Elenco: "+ movie.getActors();
+            txtActors.setText(actors);
+        }
+        if(movie.getProduction().equals(str_empty)){
+            txtProductions.setVisibility(View.GONE);
+        }else{
+            String production = "Produzido por "+ movie.getProduction();
+            txtProductions.setText(production);
+        }
+        if(movie.getWebsite().equals(str_empty)){
+            txtSite.setVisibility(View.GONE);
+        }else{
+            txtSite.setText(movie.getWebsite());
         }
 
+        if(movie.getCountry().equals(str_empty)){
+            txtCountry.setVisibility(View.GONE);
+        }else{
+            txtCountry.setText(movie.getCountry());
+        }
+
+    }
+
+    public void btnControl(){
+        if(inMyList){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                btnControl.setBackground(ContextCompat.getDrawable(MovieDetailActivity.this,R.drawable.rounded_register_button_selector_red));
+            }else{
+                btnControl.setBackgroundDrawable(ContextCompat.getDrawable(MovieDetailActivity.this,R.drawable.rounded_register_button_selector_red));
+            }
+            String str_remove = "Remover filme";
+            btnControl.setText(str_remove);
+        }else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                btnControl.setBackground(ContextCompat.getDrawable(MovieDetailActivity.this,R.drawable.rounded_register_button_selector_green));
+            }else{
+                btnControl.setBackgroundDrawable(ContextCompat.getDrawable(MovieDetailActivity.this,R.drawable.rounded_register_button_selector_green));
+            }
+            String str_add = "Cadastrar filme";
+            btnControl.setText(str_add);
+        }
     }
 
     @Override
@@ -134,12 +248,12 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(movie != null) {
-                    movie.setDate(new Date());
-                    realmController.persistMovie(movie);
+                    realmController.persistMovie(movie, new Date());
                     fabSave.setVisibility(View.GONE);
                     fabDelete.setVisibility(View.VISIBLE);
+                    inMyList = true;
+                    btnControl();
                 }
 
             }
@@ -173,6 +287,8 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
                 realmController.deleteMovieDetailModel(movieID);
                 fabSave.setVisibility(View.VISIBLE);
                 fabDelete.setVisibility(View.GONE);
+                inMyList = false;
+                btnControl();
 
             }
         });
@@ -196,7 +312,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
 
     @Override
     public void doRequest(String... params) {
-//        progressBar.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.VISIBLE);
         retrofit.client().interceptors().add(new LoggingInterceptor());
         Call<MovieDetailModel> call = apiService.searchMovieDetail(params[0]);
         call.enqueue(new Callback<MovieDetailModel>() {
@@ -204,8 +320,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
             @Override
             public void onResponse(final Response<MovieDetailModel> response, Retrofit retrofit) {
                 try {
-//                    progressBar.setVisibility(View.GONE);
-
+                    progress.setVisibility(View.GONE);
                     movie = response.body();
                     if(movie !=null){
                         inMyList = false;
@@ -215,7 +330,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
 
                 } catch (Exception e) {
                     Log.e("ERROR", e.getMessage());
-//                    progressBar.setVisibility(View.GONE);
+                    progress.setVisibility(View.GONE);
                     Snackbar.make(MovieDetailActivity.this,getString(R.string.connection_fail) );
                 }
 
@@ -223,7 +338,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
             @Override
             public void onFailure(Throwable t) {
                 try {
-//                    progressBar.setVisibility(View.GONE);
+                    progress.setVisibility(View.GONE);
                     Snackbar.make(MovieDetailActivity.this,getString(R.string.connection_fail) );
                 }catch (Exception e){
                     e.getMessage();
@@ -233,4 +348,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         });
     }
 }
+
+
+
 

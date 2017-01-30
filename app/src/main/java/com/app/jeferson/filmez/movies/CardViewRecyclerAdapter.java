@@ -66,9 +66,9 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final CardViewHolder cardViewListViewHolder,final int position) {
+    public void onBindViewHolder(final CardViewHolder cardViewListViewHolder,int i) {
         try {
-            final CardViewItems.Search cardViewListItem = cardViewListItems.get(position);
+            final CardViewItems.Search cardViewListItem = cardViewListItems.get(cardViewListViewHolder.getAdapterPosition());
             if (cardViewListItem != null) {
 
                 if(realmController.getMovieDetailModel(cardViewListItem.getImdbID()) != null){
@@ -119,7 +119,7 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
                     public void onClick(View v)
                     {
                         if (realmController.getMovieDetailModel(cardViewListItem.getImdbID()) != null) {
-                            remove(cardViewListItem.getTitle(), cardViewListItem.getImdbID(), position,cardViewListViewHolder.imgSave,cardViewListViewHolder.imgDelete);
+                            remove(cardViewListItem.getTitle(), cardViewListItem.getImdbID(),cardViewListViewHolder.getAdapterPosition(),cardViewListViewHolder.imgSave,cardViewListViewHolder.imgDelete);
                         }
 
                     }
@@ -167,8 +167,10 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
     }
 
     public void removeItem(int position) {
+
         cardViewListItems.remove(position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, cardViewListItems.size());
     }
 
     public List<CardViewItems.Search> getCardViewListItems() {
@@ -208,8 +210,7 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
 
                     MovieDetailModel movieDetailModel = response.body();
                     if(movieDetailModel != null){
-                        movieDetailModel.setDate(new Date());
-                        realmController.persistMovie(movieDetailModel);
+                        realmController.persistMovie(movieDetailModel, new Date());
                         save.setVisibility(View.GONE);
                         delete.setVisibility(View.VISIBLE);
                     }

@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.app.jeferson.filmez.movies.MovieDetailModel;
 
+import java.util.Date;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -45,10 +48,12 @@ public class RealmController {
     }
 
 
-    public RealmResults<MovieDetailModel> getMoviesByDate() {
-
-        return realm.where(MovieDetailModel.class)
+    public List<MovieDetailModel> getMoviesByDate() {
+        int limitStart = 0;
+        int limitEnd   = 5;
+        List<MovieDetailModel> list = realm.where(MovieDetailModel.class)
                 .findAllSorted("date",Sort.DESCENDING);
+        return list.subList(limitStart, (list.size() > limitEnd)?limitEnd:list.size());
     }
 
 
@@ -72,9 +77,10 @@ public class RealmController {
 
     }
 
-    public boolean persistMovie(MovieDetailModel movieDetailModel){
+    public boolean persistMovie(MovieDetailModel movieDetailModel, Date date){
 
         realm.beginTransaction();
+        movieDetailModel.setDate(date);
         realm.copyToRealm(movieDetailModel);
         realm.commitTransaction();
         return true;

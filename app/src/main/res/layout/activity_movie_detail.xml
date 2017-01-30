@@ -39,6 +39,7 @@
                     android:fitsSystemWindows="true"
                     android:visibility="visible"
                     android:background="@drawable/ic_background"
+                    android:contentDescription="@string/add_movie_title"
                     app:layout_collapseMode="pin" />
 
 
@@ -101,7 +102,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
-                        android:text="Avaliações"
+                        android:text="@string/evaluations_title"
                         android:drawablePadding="@dimen/regular_space_one"
                         android:drawableLeft="@drawable/ic_star"
                         android:drawableStart="@drawable/ic_star"
@@ -112,7 +113,6 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_reviews"
-                        android:text="Metascore: 33 | Imdb: 8.1/10 | Imdb: 8.1/10 - 500 reviews | Imdb: 8.1/10 - 500 reviews"
                         />
 
                 </LinearLayout>
@@ -139,7 +139,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
-                        android:text="Premiações"
+                        android:text="@string/awards_title"
                         android:drawablePadding="@dimen/regular_space_one"
                         android:drawableLeft="@drawable/ic_awards"
                         android:drawableStart="@drawable/ic_awards"
@@ -150,7 +150,6 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_awards"
-                        android:text="39 wins e 11 nominations."
                         />
 
                 </LinearLayout>
@@ -177,7 +176,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
-                        android:text="Sinopse"
+                        android:text="@string/txt_plot"
                         android:drawablePadding="@dimen/regular_space_one"
                         android:drawableLeft="@drawable/ic_summary"
                         android:drawableStart="@drawable/ic_summary"
@@ -188,8 +187,6 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_plot"
-                        android:text= "In 1997, before the visit of the pope to Rio de Janeiro, Captain Nascimento from BOPE (Special Police Operation Battalion) is assigned to eliminate the risks of the drug dealers in a dangerous slum nearby where the pope intends to be lodged. Captain Nascimento is trying to find a man to replace him because his wife is pregnant and he intends to quit the command and become a trainer of the new recruits. Meanwhile, the two idealistic friends Neto and Matias join the Military Police force expecting to become honest policemen and fight the criminals. However, they see only corruption, lack of competence and stupid bureaucracy in the Military Police, and after a serious incident in the Morro da Babilônia, they decide to join the BOPE. The lives of Capitain Nascimento, Neto and Matias are entwined along the next months, first in the tough training period and then in action against drug dealers. Nascimento believes that Neto could be his substitute, but his impulsive attitudes jeopardizes his choice. Later, the intelligent Matias seems to be the correct choice, but he needs to prove that he has heart."
-
                         />
 
                 </LinearLayout>
@@ -214,10 +211,10 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
-                        android:text="Produção"
                         android:drawablePadding="@dimen/regular_space_one"
                         android:drawableLeft="@drawable/ic_production"
                         android:drawableStart="@drawable/ic_production"
+                        android:text="@string/production_title"
                         />
 
                     <TextView
@@ -226,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_writer"
-                        android:text="Escritor"
+
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -234,7 +231,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_actors"
-                        android:text="Atores"
+
                         />
 
                     <TextView
@@ -243,7 +240,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_productions"
-                        android:text="rrr"
+
                         />
 
                     <TextView
@@ -252,7 +249,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_site"
-                        android:text="site"
+                        android:autoLink="web"
                         />
 
                     <TextView
@@ -261,7 +258,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/txt_country"
-                        android:text="país"
+
                         />
 
 
@@ -274,12 +271,12 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_save_black_24dp"
                 android:drawableStart="@drawable/ic_save_black_24dp"
-                android:drawableTint="@android:color/white"
                 android:layout_marginRight="@dimen/regular_space_one"
                 android:layout_marginLeft="@dimen/regular_space_one"
                 android:layout_marginBottom="@dimen/regular_space_one"
+                android:id="@+id/btn_control"
                 android:background="@drawable/rounded_register_button_selector_green"
-                android:text="Cadastrar filme "/>
+                android:text="@string/add_movie_title"/>
 
         </LinearLayout>
 
