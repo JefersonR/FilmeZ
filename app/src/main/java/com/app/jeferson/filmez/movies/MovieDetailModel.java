@@ -4,11 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Jeferson on 28/01/2017.
  */
-public class MovieDetail implements Serializable
+public class MovieDetailModel extends RealmObject implements Serializable
 {
     @SerializedName("Title")
     @Expose
@@ -61,6 +65,7 @@ public class MovieDetail implements Serializable
     @SerializedName("imdbVotes")
     @Expose
     private String imdbVotes;
+    @PrimaryKey
     @SerializedName("imdbID")
     @Expose
     private String imdbID;
@@ -115,6 +120,9 @@ public class MovieDetail implements Serializable
     @SerializedName("Response")
     @Expose
     private String response;
+
+    private Date date;
+
     private final static long serialVersionUID = -3260180359402731223L;
 
     public String getTitle() {
@@ -397,9 +405,17 @@ public class MovieDetail implements Serializable
         this.response = response;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
-        return "MovieDetail{" +
+        return "MovieDetailModel{" +
                 "title='" + title + '\'' +
                 ", year='" + year + '\'' +
                 ", rated='" + rated + '\'' +
@@ -443,7 +459,7 @@ public class MovieDetail implements Serializable
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MovieDetail that = (MovieDetail) o;
+        MovieDetailModel that = (MovieDetailModel) o;
 
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (year != null ? !year.equals(that.year) : that.year != null) return false;

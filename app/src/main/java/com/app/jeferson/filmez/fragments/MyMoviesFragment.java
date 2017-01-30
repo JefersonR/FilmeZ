@@ -1,5 +1,6 @@
 package com.app.jeferson.filmez.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -17,18 +18,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.app.jeferson.filmez.R;
-import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
 import com.app.jeferson.filmez.movies.CardViewItems;
+import com.app.jeferson.filmez.movies.CardViewRecyclerAdapter;
+import com.app.jeferson.filmez.movies.MovieDetailModel;
+import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
-import com.app.jeferson.filmez.util.ConnectionChecker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by jeferson on 22/11/15.
  */
-public class MyMoviesFragment extends Fragment implements ActivityStartProperties, RetrofitInterface {
+public class MyMoviesFragment extends Fragment implements ActivityStartProperties {
     //Ui Elements
     private Menu menu;
     private View view;
@@ -40,8 +43,8 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
     private Toolbar toolbar;
 
     //Atributtes
-    private ArrayList<CardViewItems> items;
-    private CardViewItems cardViewListItem;
+    private ArrayList<CardViewItems.Search> items;
+    private CardViewItems.Search cardViewListItem;
 
 
 
@@ -58,6 +61,8 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
         } catch (InflateException e) {
             e.getMessage();
         }
+
+
         return view;
     }
     @Override
@@ -66,7 +71,6 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
         setLayout();
         setProperties();
         listeners();
-
     }
 
     @Override
@@ -81,14 +85,12 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
 
     @Override
     public void setProperties() {
-        items = new ArrayList<CardViewItems>();
+        items = new ArrayList<CardViewItems.Search>();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+        getMyMovies();
 
-        if(ConnectionChecker.checkConnection(getActivity())){
-            doRequest();
-        }
     }
 
     @Override
@@ -96,75 +98,45 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
         mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                doRequest();
+                getMyMovies();
             }
 
         });
 
     }
 
-
-    @Override
-    public void doRequest() {
-//        progressBar.setVisibility(View.VISIBLE);
-//        retrofit.client().interceptors().add(new LoggingInterceptor());
-//        Call<ActivitiesFeedModel> call = apiService.getRides(INT_ZERO, maxResuts, newDateFormat.format(new Date()),true, session.getString(token));
-//        call.enqueue(new Callback<ActivitiesFeedModel>() {
-//
-//            @Override
-//            public void onResponse(Response<ActivitiesFeedModel> response, Retrofit retrofit) {
-//                try {
-//                    items.clear();
-//                    txtNothing.setVisibility(View.GONE);
-//                    progressBar.setVisibility(View.GONE);
-//                    if(response.isSuccess() ){
-//                        if(response.body().getData() != null && !response.body().getData().isEmpty()){
-//                            for(ActivitiesFeedModel.Datum data : response.body().getData()){
-//                                items.add(new CardViewItems(data));
-//                            }
-//                            recyclerView.setAdapter(new CardViewRecyclerAdapter(items,getActivity()));
-//
-//                        }else{
-//                            txtNothing.setVisibility(View.VISIBLE);
-//                        }
-//                    }else{
-//                        txtNothing.setVisibility(View.VISIBLE);
-//                        switch (response.code()){
-//                            default:
-//                                Snackbar.make(coordinator,error.errorMessage(response.errorBody().string()));
-//                                break;
-//                            case REQUEST_EXPIRED:
-//                                ExpiredConnection.expired(response.errorBody().string(),getActivity());
-//                                break;
-//                        }
-//                    }
-//
-//                } catch (Exception e) {
-//                    Log.e("ERROR", e.getMessage());
-//                    progressBar.setVisibility(View.GONE);
-//                    txtNothing.setVisibility(View.VISIBLE);
-//                    Snackbar.make(coordinator,getString(R.string.connection_fail) );
-//                }
-//                mSwipeRefreshLayout.setRefreshing(false);
-//            }
-//            @Override
-//            public void onFailure(Throwable t) {
-//                try {
-//                    progressBar.setVisibility(View.GONE);
-//                    txtNothing.setVisibility(View.VISIBLE);
-//                    Snackbar.make(coordinator, getActivity().getString(R.string.connection_fail));
-//                }catch (Exception e){
-//                    e.getMessage();
-//                }
-//                mSwipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
-
+    public void getMyMovies(){
+        new loadMovies().execute();
     }
 
-    @Override
-    public void doRequest(String... params) {
+    private class loadMovies extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            items.clear();
+            List<MovieDetailModel> myMovies = new RealmController(getActivity()).getMovieDetailModels();
+            if(myMovies != null && !myMovies.isEmpty() ){
+                for(MovieDetailModel data : myMovies){
+                    items.add(new CardViewItems.Search(data.getTitle(), data.getYear(),data.getImdbID(),data.getType(),data.getPoster()));
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            recyclerView.setAdapter(new CardViewRecyclerAdapter(items,true));
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
+
+
+
 
 }

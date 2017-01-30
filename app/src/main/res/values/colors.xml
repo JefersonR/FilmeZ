@@ -8,4 +8,7 @@
     <color name="gray">#E6E6E6</color>
     <color name="darker_gray">#999999</color>
     <color name="darker_gray_2">#616060</color>
+    <color name="cardview_dark_background">#FF424242</color>
+    <color name="red">#FFDE6868</color>
+    <color name="red_dark">#934545</color>
 </resources>

@@ -22,7 +22,6 @@
             app:contentScrim="@color/colorPrimary"
             app:expandedTitleGravity="center"
             app:expandedTitleTextAppearance="@style/CollapsedAppBarTopic"
-            app:title="Dragon ball Z: revenge of F"
             >
 
             <RelativeLayout
@@ -83,7 +82,6 @@
 
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/regular_space_one"
@@ -94,53 +92,132 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/layout_rules"
                     android:orientation="vertical"
                     android:layout_margin="@dimen/regular_space_two"
                     >
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/txt_title_rules"
                         android:textStyle="bold"
-                        android:text="Diretor"
+                        android:gravity="center_vertical"
+                        android:text="Avaliações"
+                        android:drawablePadding="@dimen/regular_space_one"
+                        android:drawableLeft="@drawable/ic_star"
+                        android:drawableStart="@drawable/ic_star"
                         />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_marginTop="@dimen/regular_space_two"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:id="@+id/txt_rules_detail"
+                        android:id="@+id/txt_reviews"
+                        android:text="Metascore: 33 | Imdb: 8.1/10 | Imdb: 8.1/10 - 500 reviews | Imdb: 8.1/10 - 500 reviews"
                         />
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/regular_space_one"
                 android:layout_marginRight="@dimen/regular_space_one"
                 android:layout_marginLeft="@dimen/regular_space_one"
-                android:layout_marginBottom="5dp"
                 card_view:cardCornerRadius="1dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/layout_about"
                     android:orientation="vertical"
                     android:layout_margin="@dimen/regular_space_two"
                     >
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/txt_title_about"
                         android:textStyle="bold"
-                        android:text="Sobre"
+                        android:gravity="center_vertical"
+                        android:text="Premiações"
+                        android:drawablePadding="@dimen/regular_space_one"
+                        android:drawableLeft="@drawable/ic_awards"
+                        android:drawableStart="@drawable/ic_awards"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txt_awards"
+                        android:text="39 wins e 11 nominations."
+                        />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/regular_space_one"
+                android:layout_marginRight="@dimen/regular_space_one"
+                android:layout_marginLeft="@dimen/regular_space_one"
+                card_view:cardCornerRadius="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/regular_space_two"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:text="Sinopse"
+                        android:drawablePadding="@dimen/regular_space_one"
+                        android:drawableLeft="@drawable/ic_summary"
+                        android:drawableStart="@drawable/ic_summary"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txt_plot"
+                        android:text= "In 1997, before the visit of the pope to Rio de Janeiro, Captain Nascimento from BOPE (Special Police Operation Battalion) is assigned to eliminate the risks of the drug dealers in a dangerous slum nearby where the pope intends to be lodged. Captain Nascimento is trying to find a man to replace him because his wife is pregnant and he intends to quit the command and become a trainer of the new recruits. Meanwhile, the two idealistic friends Neto and Matias join the Military Police force expecting to become honest policemen and fight the criminals. However, they see only corruption, lack of competence and stupid bureaucracy in the Military Police, and after a serious incident in the Morro da Babilônia, they decide to join the BOPE. The lives of Capitain Nascimento, Neto and Matias are entwined along the next months, first in the tough training period and then in action against drug dealers. Nascimento believes that Neto could be his substitute, but his impulsive attitudes jeopardizes his choice. Later, the intelligent Matias seems to be the correct choice, but he needs to prove that he has heart."
+
+                        />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/regular_space_one"
+                card_view:cardCornerRadius="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/regular_space_two"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:text="Produção"
+                        android:drawablePadding="@dimen/regular_space_one"
+                        android:drawableLeft="@drawable/ic_production"
+                        android:drawableStart="@drawable/ic_production"
                         />
 
                     <TextView
@@ -148,12 +225,89 @@
                         android:layout_marginTop="@dimen/regular_space_two"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:id="@+id/txt_about_detail"
+                        android:id="@+id/txt_writer"
+                        android:text="Escritor"
                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txt_actors"
+                        android:text="Atores"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txt_productions"
+                        android:text="rrr"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txt_site"
+                        android:text="site"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/txt_country"
+                        android:text="país"
+                        />
+
+
+
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_save_black_24dp"
+                android:drawableStart="@drawable/ic_save_black_24dp"
+                android:drawableTint="@android:color/white"
+                android:layout_marginRight="@dimen/regular_space_one"
+                android:layout_marginLeft="@dimen/regular_space_one"
+                android:layout_marginBottom="@dimen/regular_space_one"
+                android:background="@drawable/rounded_register_button_selector_green"
+                android:text="Cadastrar filme "/>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/float_save"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        android:tint="@android:color/white"
+        android:src="@drawable/ic_save_black_24dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/appbar"
+        android:visibility="gone"
+        app:layout_anchorGravity="bottom|right|end"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/float_delete"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        android:tint="@android:color/white"
+        android:src="@drawable/ic_delete_black_24dp"
+        app:backgroundTint="@color/red"
+        app:layout_anchor="@id/appbar"
+        android:visibility="gone"
+        app:layout_anchorGravity="bottom|right|end"
+        />
 </android.support.design.widget.CoordinatorLayout>

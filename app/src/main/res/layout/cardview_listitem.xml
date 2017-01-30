@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:visibility="visible"
-        android:layout_height="100dp"
+        android:layout_height="85dp"
         android:layout_margin="@dimen/regular_space_one"
         >
         <RelativeLayout
@@ -22,7 +22,6 @@
             android:id="@+id/layout_poster"
             android:visibility="visible"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/regular_space_one"
             >
             <ProgressBar
                 android:id="@+id/progress_img"
@@ -36,33 +35,44 @@
                 android:layout_height="85dp"
                 android:id="@+id/img_poster"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/poster"/>
+                android:src="@drawable/ic_poster_standart"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/layout_info"
             android:visibility="visible"
-            android:layout_centerInParent="true"
             android:layout_toRightOf="@+id/layout_poster"
             android:layout_toEndOf="@+id/layout_poster"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/regular_space_one"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/regular_space_one"
+            android:layout_marginStart="@dimen/regular_space_one"
+            android:layout_above="@+id/img_save"
             android:orientation="vertical"
             >
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
+                android:layout_height="match_parent"
+                android:textSize="15.5sp"
                 android:textStyle="bold"
                 android:id="@+id/txt_title"
-                android:text=""/>
+                android:maxLines="3"
+                android:ellipsize="end"
+                />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txt_year"
-                android:text=""/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_year"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/layout_poster"
+            android:layout_toEndOf="@+id/layout_poster"
+            android:layout_marginLeft="@dimen/regular_space_one"
+            android:layout_marginStart="@dimen/regular_space_one"
+            android:background="@color/gray"
+            android:padding="2dp"
+            android:text=""/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -73,7 +83,7 @@
             android:paddingStart="@dimen/regular_space_two"
             android:paddingRight="0dp"
             android:paddingEnd="0dp"
-            android:paddingTop="@dimen/regular_space_two"
+            android:paddingTop="@dimen/regular_space_one"
             android:tint="@color/darker_gray"
             android:id="@+id/img_forward"
             android:layout_alignParentBottom="true"
@@ -94,7 +104,7 @@
             android:paddingEnd="@dimen/regular_space_two"
             android:paddingLeft="@dimen/regular_space_two"
             android:paddingStart="@dimen/regular_space_two"
-            android:paddingTop="@dimen/regular_space_two"
+            android:paddingTop="@dimen/regular_space_one"
             android:contentDescription="@string/app_name"
             android:background="?selectableItemBackground"
             android:layout_marginRight="@dimen/regular_space_two"
@@ -115,7 +125,7 @@
             android:paddingEnd="@dimen/regular_space_two"
             android:paddingLeft="@dimen/regular_space_two"
             android:paddingStart="@dimen/regular_space_two"
-            android:paddingTop="@dimen/regular_space_two"
+            android:paddingTop="@dimen/regular_space_one"
             android:contentDescription="@string/app_name"
             android:background="?selectableItemBackground"
             android:layout_marginRight="@dimen/regular_space_two"

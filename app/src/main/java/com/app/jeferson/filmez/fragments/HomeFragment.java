@@ -35,13 +35,16 @@ import com.app.jeferson.filmez.connectionFactory.LoggingInterceptor;
 import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
 import com.app.jeferson.filmez.movies.CardViewItems;
 import com.app.jeferson.filmez.movies.CardViewRecyclerAdapter;
+import com.app.jeferson.filmez.movies.MovieDetailModel;
 import com.app.jeferson.filmez.providers.MySuggestionProvider;
+import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
 import com.app.jeferson.filmez.util.ConnectionChecker;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit.Call;
@@ -68,6 +71,7 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
     //Atributtes
     private ArrayList<CardViewItems.Search> items;
     private CardViewItems cardViewListItem;
+    private String strSearch = "";
 
 
 
@@ -120,6 +124,22 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
 
+
+        List<MovieDetailModel> myMovies = new RealmController(getActivity()).getMoviesByDate();
+        if(myMovies != null && !myMovies.isEmpty() ){
+            for(MovieDetailModel data : myMovies){
+                items.add(new CardViewItems.Search(data.getTitle(), data.getYear(),data.getImdbID(),data.getType(),data.getPoster()));
+            }
+        }
+        recyclerView.setAdapter(new CardViewRecyclerAdapter(items));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!strSearch.isEmpty())
+            doRequest(strSearch);
     }
 
     @Override
@@ -127,7 +147,12 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                doRequest();
+                if(!strSearch.isEmpty()){
+                    doRequest(strSearch);
+                }else{
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+
             }
 
         });
@@ -144,6 +169,8 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
     @Override
     public void doRequest(String... params) {
         progressBar.setVisibility(View.VISIBLE);
+        items.clear();
+        recyclerView.setAdapter(null);
         retrofit.client().interceptors().add(new LoggingInterceptor());
         Call<CardViewItems> call = apiService.searchMovie(params[0]);
         call.enqueue(new Callback<CardViewItems>() {
@@ -151,7 +178,7 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
             @Override
             public void onResponse(Response<CardViewItems> response, Retrofit retrofit) {
                 try {
-                    items.clear();
+
                     txtNothing.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
                     if(response.isSuccess() ){
@@ -165,6 +192,7 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                             txtNothing.setVisibility(View.VISIBLE);
                         }
                     }else{
+                        Snackbar.make(coordinator,getString(R.string.connection_fail) );
                     }
 
                 } catch (Exception e) {
@@ -219,7 +247,8 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
 
                 if(ConnectionChecker.checkConnection(getActivity())){
                     hideKeyboard();
-                    doRequest(query);
+                    strSearch = query;
+                    doRequest(strSearch);
                 }
 
                 return true;
@@ -227,8 +256,6 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-//                Log.e("TESTE", "ALOOOO : " + newText);
 
                 return false;
             }
@@ -242,7 +269,8 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                 searchView.setQuery(suggestion, false);
                 if(ConnectionChecker.checkConnection(getActivity())){
                     hideKeyboard();
-                    doRequest(suggestion);
+                    strSearch = suggestion;
+                    doRequest(strSearch);
                 }
                 return true;
             }

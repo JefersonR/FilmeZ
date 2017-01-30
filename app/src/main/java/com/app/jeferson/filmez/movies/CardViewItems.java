@@ -77,7 +77,7 @@ public class CardViewItems implements Serializable {
                 '}';
     }
 
-    public class Search implements Serializable
+    public static class Search implements Serializable
     {
 
         @SerializedName("Title")
@@ -96,6 +96,18 @@ public class CardViewItems implements Serializable {
         @Expose
         private String poster;
         private final static long serialVersionUID = 3942908683226451058L;
+
+        public Search(String title, String year, String imdbID, String type, String poster) {
+            this.title = title;
+            this.year = year;
+            this.imdbID = imdbID;
+            this.type = type;
+            this.poster = poster;
+        }
+
+        public Search(){
+
+        }
 
         public String getTitle() {
             return title;

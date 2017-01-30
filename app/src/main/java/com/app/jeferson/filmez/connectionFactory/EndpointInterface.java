@@ -1,7 +1,7 @@
 package com.app.jeferson.filmez.connectionFactory;
 
 import com.app.jeferson.filmez.movies.CardViewItems;
-import com.app.jeferson.filmez.movies.MovieDetail;
+import com.app.jeferson.filmez.movies.MovieDetailModel;
 
 import retrofit.Call;
 import retrofit.http.GET;
@@ -23,6 +23,6 @@ public interface EndpointInterface {
 
     //Get details
     @GET(search_movie_detail)
-    Call<MovieDetail> searchMovieDetail(@Query("i") String movieID);
+    Call<MovieDetailModel> searchMovieDetail(@Query("i") String movieID);
 
 }
