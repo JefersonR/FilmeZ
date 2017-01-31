@@ -70,7 +70,7 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
     public void onBindViewHolder(final CardViewHolder cardViewListViewHolder,int i) {
         try {
             final CardViewItems.Search cardViewListItem = cardViewListItems.get(cardViewListViewHolder.getAdapterPosition());
-            if (cardViewListItem != null) {
+            if (cardViewListItem != null) {  
 
                 if(realmController.getMovieDetailModel(cardViewListItem.getImdbID()) != null){
                     cardViewListViewHolder.imgSave.setVisibility(View.GONE);
