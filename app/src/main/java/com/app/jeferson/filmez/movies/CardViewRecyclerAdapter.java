@@ -19,7 +19,7 @@ import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
 import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ConnectionChecker;
 import com.app.jeferson.filmez.util.Constants;
-import com.app.jeferson.filmez.util.ImageDetailActivity;
+import com.app.jeferson.filmez.ImageDetailActivity;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -70,7 +70,7 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
     public void onBindViewHolder(final CardViewHolder cardViewListViewHolder,int i) {
         try {
             final CardViewItems.Search cardViewListItem = cardViewListItems.get(cardViewListViewHolder.getAdapterPosition());
-            if (cardViewListItem != null) {  
+            if (cardViewListItem != null) {
 
                 if(realmController.getMovieDetailModel(cardViewListItem.getImdbID()) != null){
                     cardViewListViewHolder.imgSave.setVisibility(View.GONE);

@@ -25,7 +25,6 @@ import com.app.jeferson.filmez.movies.MovieDetailModel;
 import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
 import com.app.jeferson.filmez.util.ConnectionChecker;
-import com.app.jeferson.filmez.util.ImageDetailActivity;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;

@@ -1,4 +1,4 @@
-package com.app.jeferson.filmez.util;
+package com.app.jeferson.filmez;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.jeferson.filmez.R;
+import com.app.jeferson.filmez.util.ActivityStartProperties;
 import com.squareup.picasso.Picasso;
 
 public class ImageDetailActivity extends AppCompatActivity implements ActivityStartProperties {
@@ -26,7 +26,7 @@ public class ImageDetailActivity extends AppCompatActivity implements ActivitySt
 
         setLayout();
         setProperties();
-        listeners();
+        listeners();  
     }
 
     @Override
