@@ -1,6 +1,6 @@
 # FilmeZ
 
-Bem vindo ao FilmeZ
+Bem vindo ao FilmeZ!
 Com o FilmeZ você poderá salvar todas as informações dos seus filmes favoritos. 
 Você poderá acessar as informações do seus filmes mesmo que esteja sem internet no momento da consulta.
 Tudo que você precisa fazer é utilizar a barra de pesquisa na tela Principal, digitando ou usando o comando de voz com o nome do filme. 
