@@ -32,6 +32,19 @@ Proin varius, risus ut dignissim consectetur, nisl mi suscipit tortor, eget pulv
     <string name="txt_plot">Sinopse</string>
     <string name="production_title">Produção</string>
     <string name="add_movie_title">Cadastrar filme</string>
+    <string name="sort_by_name">Ordenar por nome</string>
+    <string name="sort_by_year">Ordenar por ano</string>
+    <string name="filter">Filtro</string>
+    <string name="sort_normal">Ordem de inserção</string>
+    <string name="str_no_movie_found">Nenhum filme foi encontrado, tente novamente⇧\nVocê tentou pelo nome em Inglês?</string>
+    <string name="str_welcome">Bem vindo novamente</string>
+    <string name="str_last_movies">Filmes adicionados recentemente</string>
+    <string name="str_welcome_text">Pesquise pelo nome (em Inglês) dos seus filmes favoritos e cadastre-os na sua lista para poder ver as informações a qualquer momento.</string>
+    <string name="search_movies">Buscar filmes</string>
+    <string name="str_about">Bem vindo ao FilmeZ\n\nCom o FilmeZ você poderá salvar todas as informações dos seus filmes favoritos. Você poderá acessar as informações do seus filmes mesmo que esteja sem internet no momento da consulta.\n\nTudo que você precisa fazer é utilizar a barra de pesquisa na tela Principal, digitando ou usando o comando de voz com o nome do filme. Uma lista com todos os filmes que casam com a pesquisa será apresentada, clique no filme que lhe interessar veja as informações e cadastre-o na sua lista de filmes favoritos.\n\nInfelizmente (ou felizmente?) todas as informações ainda são em inglês. Mas pense pelo lado bom, enquanto você conhece mais sobre seus filmes favoritos, você pratica seu inglês, porque não?</string>
+    <string name="search">Pesquisar filmes...</string>
+    <string name="welcome_first">Salve informações dos seus filmes favoritos. Tudo que você precisa fazer é utilizar a barra de pesquisa ⇧, digitando ou usando o comando de voz com o nome do filme.\nPor enquanto a pesquisa e as respostas são em inglês. Aproveite para praticar :D</string>
+    <string name="welcome_first_title">Bem vindo ao FilmeZ</string>
 
 
 </resources>

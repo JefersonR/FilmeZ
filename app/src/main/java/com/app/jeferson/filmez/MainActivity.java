@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ActivityStartProp
     private AboutFragment aboutFragment;
 
     //Defining Variables
-    private final int TIME_EFFECT = 1000;
+    private final int TIME_EFFECT = 800;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements ActivityStartProp
         if(isHome) {
             relativeToolbar.setVisibility(View.VISIBLE);
             toolbar.setVisibility(View.GONE);
-            setActionBarDrawerToggle(toolbarSearch);
+
         }else{
             relativeToolbar.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
-            setActionBarDrawerToggle(toolbar);
+
         }
     }
 
@@ -71,16 +71,16 @@ public class MainActivity extends AppCompatActivity implements ActivityStartProp
             fragmentTransaction.commit();
             relativeToolbar.setVisibility(View.VISIBLE);
             toolbar.setVisibility(View.GONE);
-            setActionBarDrawerToggle(toolbarSearch);
+
         }else{
             relativeToolbar.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
-            setActionBarDrawerToggle(toolbar);
+
         }
     }
 
 
-    private void setActionBarDrawerToggle(Toolbar toolbar) {
+    public void setActionBarDrawerToggle(Toolbar toolbar) {
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements ActivityStartProp
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setTitle("Meus filmes");
         }
 
         toolbarSearch = (Toolbar) findViewById(R.id.toolbar_search);

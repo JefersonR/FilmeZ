@@ -70,6 +70,7 @@ public class RealmController {
             realm.beginTransaction();
             movieDetailModel.deleteFromRealm();
             realm.commitTransaction();
+            realm.close();
             return true;
         }catch(Exception e){
             return false;
@@ -78,12 +79,17 @@ public class RealmController {
     }
 
     public boolean persistMovie(MovieDetailModel movieDetailModel, Date date){
-
-        realm.beginTransaction();
-        movieDetailModel.setDate(date);
-        realm.copyToRealm(movieDetailModel);
-        realm.commitTransaction();
-        return true;
+        try {
+            realm.beginTransaction();
+            movieDetailModel.setDate(date);
+            realm.copyToRealm(movieDetailModel);
+            realm.commitTransaction();
+            realm.close();
+            return true;
+        }catch(Exception e){
+            e.getMessage();
+        }
+        return false;
     }
 
     //check if MovieDetailModel.class is empty

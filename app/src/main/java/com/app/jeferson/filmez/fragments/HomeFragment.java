@@ -14,9 +14,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -67,14 +70,13 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
     private TextView txtNothing;
     private CoordinatorLayout coordinator;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private LinearLayout layoutWelcome;
+    private LinearLayout layoutFirst;
 
     //Atributtes
     private ArrayList<CardViewItems.Search> items;
     private CardViewItems cardViewListItem;
     private String strSearch = "";
-
-
-
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
 
@@ -114,6 +116,8 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         progressBar = (ProgressBar)   view.findViewById(R.id.progressBar);
         txtNothing =  (TextView)         view.findViewById(R.id.txt_nothing);
         coordinator =  (CoordinatorLayout)  view.findViewById(R.id.coordinator);
+        layoutWelcome =  (LinearLayout)  view.findViewById(R.id.layout_welcome);
+        layoutFirst =  (LinearLayout)  view.findViewById(R.id.layout_first);
 
     }
 
@@ -123,23 +127,44 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+        configureToolbar();
+        getLastItens();
 
+    }
 
-        List<MovieDetailModel> myMovies = new RealmController(getActivity()).getMoviesByDate();
-        if(myMovies != null && !myMovies.isEmpty() ){
-            for(MovieDetailModel data : myMovies){
-                items.add(new CardViewItems.Search(data.getTitle(), data.getYear(),data.getImdbID(),data.getType(),data.getPoster()));
+    private void getLastItens(){
+        RealmController realm = new RealmController(getActivity());
+        if(realm.hasMovieDetailModels()) {
+            layoutWelcome.setVisibility(View.VISIBLE);
+            layoutFirst.setVisibility(View.GONE);
+            List<MovieDetailModel> myMovies = realm.getMoviesByDate();
+            items.clear();
+            if (myMovies != null && !myMovies.isEmpty()) {
+                for (MovieDetailModel data : myMovies) {
+                    items.add(new CardViewItems.Search(data.getTitle(), data.getYear(), data.getImdbID(), data.getType(), data.getPoster()));
+                }
             }
+            recyclerView.setAdapter(null);
+            recyclerView.setAdapter(new CardViewRecyclerAdapter(items));
+        }else{
+            items.clear();
+            recyclerView.setAdapter(null);
+            recyclerView.setAdapter(new CardViewRecyclerAdapter(items));
+            layoutFirst.setVisibility(View.VISIBLE);
+            layoutWelcome.setVisibility(View.GONE);
         }
-        recyclerView.setAdapter(new CardViewRecyclerAdapter(items));
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(!strSearch.isEmpty())
-            doRequest(strSearch);
+        if(ConnectionChecker.checkConnection(getActivity())) {
+            if (!strSearch.isEmpty()){
+                doRequest(strSearch);
+            }else{
+                getLastItens();
+            }
+        }
     }
 
     @Override
@@ -147,10 +172,13 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(!strSearch.isEmpty()){
-                    doRequest(strSearch);
-                }else{
-                    mSwipeRefreshLayout.setRefreshing(false);
+                if(ConnectionChecker.checkConnection(getActivity())) {
+                    if (!strSearch.isEmpty()) {
+                        doRequest(strSearch);
+                    } else {
+                        getLastItens();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
                 }
 
             }
@@ -158,6 +186,13 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         });
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        strSearch = "";
+    }
+
 
 
     @Override
@@ -169,6 +204,8 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
     @Override
     public void doRequest(String... params) {
         progressBar.setVisibility(View.VISIBLE);
+        layoutWelcome.setVisibility(View.GONE);
+        layoutFirst.setVisibility(View.GONE);
         items.clear();
         recyclerView.setAdapter(null);
         retrofit.client().interceptors().add(new LoggingInterceptor());
@@ -381,6 +418,17 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
+    private void configureToolbar(){
+
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_search);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        if(activity.getSupportActionBar() != null) {
+            ((MainActivity) getActivity()).setActionBarDrawerToggle(toolbar);
         }
     }
 

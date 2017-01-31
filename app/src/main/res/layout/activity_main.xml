@@ -15,7 +15,7 @@
             android:background="@color/colorPrimary"
             android:visibility="visible"
             android:id="@+id/relative_toolbar"
-            android:layout_height="wrap_content">
+            android:layout_height="60dp">
             <include
                 android:id="@+id/toolbar_search"
                 layout="@layout/toolbar_search" />
@@ -44,6 +44,4 @@
         app:menu="@menu/drawer">
 
     </android.support.design.widget.NavigationView>
-
-
 </android.support.v4.widget.DrawerLayout>

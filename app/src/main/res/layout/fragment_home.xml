@@ -32,10 +32,123 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/layout_first"
+                    android:visibility="gone"
+                    android:id="@+id/layout_welcome"
+                    android:layout_height="wrap_content">
+
+
+                    <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:id="@+id/card"
+                        android:visibility="visible"
+                        android:layout_margin="@dimen/regular_space_one"
+                        card_view:cardCornerRadius="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_margin="@dimen/regular_space_two"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textStyle="bold"
+                                android:gravity="center_vertical"
+                                android:text="@string/str_welcome"
+                                android:drawablePadding="@dimen/regular_space_one"
+                                android:drawableLeft="@drawable/ic_local_movies_black_24dp"
+                                android:drawableStart="@drawable/ic_local_movies_black_24dp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="@dimen/regular_space_two"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="@string/str_welcome_text"
+                                />
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/txt_last"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/regular_space_two"
+                        android:textSize="16sp"
+                        android:visibility="visible"
+                        android:gravity="center"
+                        android:text="@string/str_last_movies" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:id="@+id/layout_first"
+                    android:layout_marginTop="@dimen/regular_space_two"
+                    android:layout_height="wrap_content">
+
+
+                    <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="210dp"
+                        android:visibility="visible"
+                        android:layout_margin="@dimen/regular_space_one"
+                        card_view:cardCornerRadius="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_margin="@dimen/regular_space_two"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textStyle="bold"
+                                android:gravity="center_vertical"
+                                android:text="@string/welcome_first_title"
+                                android:drawablePadding="@dimen/regular_space_one"
+                                android:drawableLeft="@drawable/ic_local_movies_black_24dp"
+                                android:drawableStart="@drawable/ic_local_movies_black_24dp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="@dimen/regular_space_two"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="@string/welcome_first"
+                                />
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_marginTop="@dimen/regular_space_two"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="70dp"
+                        android:shadowColor="@color/black_overlay"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_movie_shadow"/>
+                </LinearLayout>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/layout_welcome"
                     android:paddingBottom="@dimen/regular_space_one"
                     android:clipToPadding="false"
                     />
@@ -45,11 +158,26 @@
                     android:id="@+id/txt_nothing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:layout_margin="@dimen/regular_space_two"
+                    android:textSize="18sp"
                     android:visibility="gone"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:layout_centerInParent="true"
-                    android:text="Nenhum filme" />
+                    android:text="@string/str_no_movie_found" />
+
+                <TextView
+                    android:id="@+id/txt_nothing_movie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/regular_space_two"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"
+                    android:text="Ops! Você ainda não possui nenhum filme cadastrado. Não perca tempo, cadastre seus filmes preferidos!" />
+
 
             </RelativeLayout>
         </android.support.v4.widget.SwipeRefreshLayout>

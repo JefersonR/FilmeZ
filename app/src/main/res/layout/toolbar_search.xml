@@ -26,14 +26,14 @@
             android:textSize="18sp"
             android:layout_toLeftOf="@+id/voice_search"
             android:layout_toStartOf="@+id/voice_search"
-            android:text="Buscar filmes"
+            android:text="@string/search_movies"
             />
 
         <ImageView
             android:id="@+id/voice_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="voice search"
+            android:contentDescription="@string/sort_by_name"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

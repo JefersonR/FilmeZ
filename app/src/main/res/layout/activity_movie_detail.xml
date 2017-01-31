@@ -269,11 +269,10 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_save_black_24dp"
-                android:drawableStart="@drawable/ic_save_black_24dp"
                 android:layout_marginRight="@dimen/regular_space_one"
                 android:layout_marginLeft="@dimen/regular_space_one"
                 android:layout_marginBottom="@dimen/regular_space_one"
+                android:textColor="@android:color/white"
                 android:id="@+id/btn_control"
                 android:background="@drawable/rounded_register_button_selector_green"
                 android:text="@string/add_movie_title"/>

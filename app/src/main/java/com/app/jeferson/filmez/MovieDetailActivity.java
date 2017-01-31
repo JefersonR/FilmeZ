@@ -23,6 +23,7 @@ import com.app.jeferson.filmez.movies.CardViewItems;
 import com.app.jeferson.filmez.movies.MovieDetailModel;
 import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
+import com.app.jeferson.filmez.util.ConnectionChecker;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -131,7 +132,9 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
                 populate(movie);
 
             }else{
-                doRequest(movie_received.getImdbID());
+                if(ConnectionChecker.checkConnection(MovieDetailActivity.this)) {
+                    doRequest(movie_received.getImdbID());
+                }
             }
         }
 
@@ -248,12 +251,14 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(movie != null) {
                     realmController.persistMovie(movie, new Date());
                     fabSave.setVisibility(View.GONE);
                     fabDelete.setVisibility(View.VISIBLE);
                     inMyList = true;
                     btnControl();
+
                 }
 
             }
@@ -262,7 +267,33 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         fabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                remove(movie.getTitle(), movie.getImdbID());
+
+                if(movie != null){
+                    remove(movie.getTitle(), movie.getImdbID());
+                }
+            }
+        });
+
+        btnControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(inMyList){
+                    if(movie != null){
+                        remove(movie.getTitle(), movie.getImdbID());
+                    }
+                }else{
+                    if(movie != null) {
+                        realmController.persistMovie(movie, new Date());
+                        fabSave.setVisibility(View.GONE);
+                        fabDelete.setVisibility(View.VISIBLE);
+                        inMyList = true;
+                        btnControl();
+
+                    }
+                }
+
+
             }
         });
 
@@ -285,10 +316,12 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
             public void onClick(DialogInterface arg0, int arg1) {
 
                 realmController.deleteMovieDetailModel(movieID);
-                fabSave.setVisibility(View.VISIBLE);
-                fabDelete.setVisibility(View.GONE);
                 inMyList = false;
-                btnControl();
+                finish();
+//                fabSave.setVisibility(View.VISIBLE);
+//                fabDelete.setVisibility(View.GONE);
+//                btnControl();
+
 
             }
         });
