@@ -2,6 +2,7 @@ package com.app.jeferson.filmez;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,6 +25,7 @@ import com.app.jeferson.filmez.movies.MovieDetailModel;
 import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
 import com.app.jeferson.filmez.util.ConnectionChecker;
+import com.app.jeferson.filmez.util.ImageDetailActivity;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -254,6 +256,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
 
                 if(movie != null) {
                     realmController.persistMovie(movie, new Date());
+                    Snackbar.make(MovieDetailActivity.this, getString(R.string.movie_add));
                     fabSave.setVisibility(View.GONE);
                     fabDelete.setVisibility(View.VISIBLE);
                     inMyList = true;
@@ -285,6 +288,7 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
                 }else{
                     if(movie != null) {
                         realmController.persistMovie(movie, new Date());
+                        Snackbar.make(MovieDetailActivity.this, getString(R.string.movie_add));
                         fabSave.setVisibility(View.GONE);
                         fabDelete.setVisibility(View.VISIBLE);
                         inMyList = true;
@@ -292,11 +296,20 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
 
                     }
                 }
-
+            }
+        });
+        imgPoster.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(MovieDetailActivity.this, ImageDetailActivity.class);
+                intent.putExtra("PHOTO",movie.getPoster());
+                intent.putExtra("TITLE",movie.getTitle());
+                startActivity(intent);
 
             }
         });
-
     }
 
     private void remove(final String title, final String movieID) {

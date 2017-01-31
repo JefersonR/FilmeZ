@@ -158,13 +158,15 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
     @Override
     public void onResume() {
         super.onResume();
-        if(ConnectionChecker.checkConnection(getActivity())) {
-            if (!strSearch.isEmpty()){
+
+        if (!strSearch.isEmpty()){
+            if(ConnectionChecker.checkConnection(getActivity())) {
                 doRequest(strSearch);
-            }else{
-                getLastItens();
             }
+        }else{
+            getLastItens();
         }
+
     }
 
     @Override
@@ -172,14 +174,16 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
         mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(ConnectionChecker.checkConnection(getActivity())) {
-                    if (!strSearch.isEmpty()) {
+
+                if (!strSearch.isEmpty()) {
+                    if(ConnectionChecker.checkConnection(getActivity())) {
                         doRequest(strSearch);
-                    } else {
-                        getLastItens();
-                        mSwipeRefreshLayout.setRefreshing(false);
                     }
+                } else {
+                    getLastItens();
+                    mSwipeRefreshLayout.setRefreshing(false);
                 }
+
 
             }
 
@@ -396,7 +400,7 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                 if (resultCode == MainActivity.RESULT_OK && data   != null) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    android.util.Log.e("fala", result.get(0));
+                    Log.e("fala", result.get(0));
                     if (!result.get(0).isEmpty()){
                         if (menu != null && searchView != null) {
                             menu.findItem(R.id.listsearch).expandActionView();
@@ -405,6 +409,9 @@ public class HomeFragment extends Fragment implements ActivityStartProperties, R
                             searchView.setIconified(false);
                             searchView.requestFocusFromTouch();
                             searchView.setQuery(result.get(0), false);
+
+                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
                         }
                     }
                 }

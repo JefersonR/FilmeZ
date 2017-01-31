@@ -19,6 +19,7 @@ import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
 import com.app.jeferson.filmez.realm.RealmController;
 import com.app.jeferson.filmez.util.ConnectionChecker;
 import com.app.jeferson.filmez.util.Constants;
+import com.app.jeferson.filmez.util.ImageDetailActivity;
 import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -121,6 +122,19 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
                         if (realmController.getMovieDetailModel(cardViewListItem.getImdbID()) != null) {
                             remove(cardViewListItem.getTitle(), cardViewListItem.getImdbID(),cardViewListViewHolder.getAdapterPosition(),cardViewListViewHolder.imgSave,cardViewListViewHolder.imgDelete);
                         }
+
+                    }
+                });
+
+                cardViewListViewHolder.imgPoster.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                      Intent intent = new Intent(context, ImageDetailActivity.class);
+                        intent.putExtra("PHOTO",cardViewListItem.getPoster());
+                        intent.putExtra("TITLE",cardViewListItem.getTitle());
+                        context.startActivity(intent);
 
                     }
                 });
