@@ -68,6 +68,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void startProperties() {
+        setHasOptionsMenu(true);
         items = new ArrayList<CardViewItems.Search>();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
