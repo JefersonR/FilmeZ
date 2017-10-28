@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.app.jeferson.filmez.R;
 
+
 public class ConnectionChecker
 {
     private static boolean isConnected(Context context) throws InterruptedException
@@ -20,22 +21,22 @@ public class ConnectionChecker
         return (activeNetwork != null && activeNetwork.isConnectedOrConnecting() && activeNetwork.isAvailable());
     }
 
-    public static boolean checkConnection(final Activity activity){
+    public static boolean checkConnection(final Context context){
         try {
-            if(isConnected(activity)){
+            if(isConnected(context)){
                 return true;
             }else{
-                if(activity != null) {
-                    View view =  activity.findViewById(android.R.id.content);
+                if(context != null) {
+                    View view =  ((Activity)context).findViewById(android.R.id.content);
                     if(view != null) {
                         android.support.design.widget.Snackbar snackbar = android.support.design.widget.Snackbar
-                                .make(view, activity.getString(R.string.connection_error), android.support.design.widget.Snackbar.LENGTH_LONG)
+                                .make(view, ((Activity)context).getString(R.string.connection_error), 10000)
                                 .setAction("Conectar", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        activity.startActivity(intent);
+                                        ((Activity)context).startActivity(intent);
                                     }
                                 });
 

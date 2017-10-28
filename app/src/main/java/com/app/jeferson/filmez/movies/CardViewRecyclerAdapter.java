@@ -12,32 +12,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.app.jeferson.filmez.MovieDetailActivity;
 import com.app.jeferson.filmez.R;
-import com.app.jeferson.filmez.connectionFactory.LoggingInterceptor;
-import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
+import com.app.jeferson.filmez.network.connectionService.Interfaces.OnSucess;
+import com.app.jeferson.filmez.network.connectionService.Presenter;
 import com.app.jeferson.filmez.realm.RealmController;
+import com.app.jeferson.filmez.ui.activities.ImageDetailActivity;
+import com.app.jeferson.filmez.ui.activities.MovieDetailActivity;
 import com.app.jeferson.filmez.util.ConnectionChecker;
 import com.app.jeferson.filmez.util.Constants;
-import com.app.jeferson.filmez.ImageDetailActivity;
 import com.app.jeferson.filmez.util.Log;
-import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
-
 
 /**
  * Created by Jeferson on 11/05/2016.
  */
-public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder> implements Constants, RetrofitInterface {
+public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder> implements Constants {
 
     private List<CardViewItems.Search> cardViewListItems;
     private Context context;
@@ -201,52 +195,23 @@ public class CardViewRecyclerAdapter extends RecyclerView.Adapter<CardViewHolder
     }
 
 
-    @Override
-    public void doRequest() {
 
-    }
-
-    @Override
-    public void doRequest(String... params) {
-
-    }
 
     public void doRequestDetail(String movieID, final ProgressBar progressBar,final ImageView save, final ImageView delete) {
         progressBar.setVisibility(View.VISIBLE);
-        retrofit.client().interceptors().add(new LoggingInterceptor());
-        Call<MovieDetailModel> call = apiService.searchMovieDetail(movieID);
-        call.enqueue(new Callback<MovieDetailModel>() {
-
+        new Presenter(context).searchMovieDetail(movieID, new OnSucess() {
             @Override
-            public void onResponse(final Response<MovieDetailModel> response, Retrofit retrofit) {
-                try {
-                    progressBar.setVisibility(View.GONE);
-
-                    MovieDetailModel movieDetailModel = response.body();
-                    if(movieDetailModel != null){
-                        realmController.persistMovie(movieDetailModel, new Date());
-                        save.setVisibility(View.GONE);
-                        delete.setVisibility(View.VISIBLE);
-                    }
-
-                } catch (Exception e) {
-                    Log.e("ERROR", e.getMessage());
-                    progressBar.setVisibility(View.GONE);
-                    Snackbar.make((Activity) context,context.getString(R.string.connection_fail) );
+            public void onSucessResponse(retrofit2.Response response) {
+                MovieDetailModel movieDetailModel = (MovieDetailModel)response.body();
+                if(movieDetailModel != null){
+                    realmController.persistMovie(movieDetailModel, new Date());
+                    save.setVisibility(View.GONE);
+                    delete.setVisibility(View.VISIBLE);
                 }
 
             }
-            @Override
-            public void onFailure(Throwable t) {
-                try {
-                    progressBar.setVisibility(View.GONE);
-                    Snackbar.make((Activity) context,context.getString(R.string.connection_fail) );
-                }catch (Exception e){
-                    e.getMessage();
-                }
+        },progressBar);
 
-            }
-        });
     }
 
     private void remove(final String title, final String movieID,final int position,final ImageView save, final ImageView delete) {

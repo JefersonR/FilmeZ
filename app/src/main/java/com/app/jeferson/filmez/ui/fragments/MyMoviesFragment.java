@@ -1,31 +1,25 @@
-package com.app.jeferson.filmez.fragments;
+package com.app.jeferson.filmez.ui.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.jeferson.filmez.MainActivity;
 import com.app.jeferson.filmez.R;
+import com.app.jeferson.filmez.bases.BaseFragment;
 import com.app.jeferson.filmez.movies.CardViewItems;
 import com.app.jeferson.filmez.movies.CardViewRecyclerAdapter;
 import com.app.jeferson.filmez.movies.MovieDetailModel;
 import com.app.jeferson.filmez.realm.RealmController;
-import com.app.jeferson.filmez.util.ActivityStartProperties;
+import com.app.jeferson.filmez.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,10 +30,9 @@ import java.util.List;
 /**
  * Created by jeferson on 22/11/15.
  */
-public class MyMoviesFragment extends Fragment implements ActivityStartProperties {
+public class MyMoviesFragment extends BaseFragment{
     //Ui Elements
     private Menu menu;
-    private View view;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private TextView txtNothing;
@@ -53,34 +46,34 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
     private int sort = 2;
 
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null)
-                parent.removeView(view);
-        }
-        try {
-            view = inflater.inflate(R.layout.fragment_home, container, false);
-        } catch (InflateException e) {
-            e.getMessage();
-        }
+    protected void startProperties() {
         setHasOptionsMenu(true);
-        return view;
-    }
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setLayout();
-        setProperties();
-        listeners();
+        configureToolbar();
+        items = new ArrayList<CardViewItems.Search>();
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
     }
 
     @Override
-    public void setLayout() {
+    protected void defineListeners() {
+        mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMyMovies();
+            }
+
+        });
+    }
+
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    public void setLayout(View view) {
         // spinner element
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.container);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerList);
@@ -89,28 +82,7 @@ public class MyMoviesFragment extends Fragment implements ActivityStartPropertie
         coordinator =  (CoordinatorLayout)  view.findViewById(R.id.coordinator);
     }
 
-    @Override
-    public void setProperties() {
-        configureToolbar();
-        items = new ArrayList<CardViewItems.Search>();
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
 
-
-    }
-
-    @Override
-    public void listeners() {
-        mSwipeRefreshLayout.setOnRefreshListener(new   SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getMyMovies();
-            }
-
-        });
-
-    }
 
     @Override
     public void onResume() {

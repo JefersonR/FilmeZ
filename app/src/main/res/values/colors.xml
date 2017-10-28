@@ -11,4 +11,24 @@
     <color name="cardview_dark_background">#FF424242</color>
     <color name="red">#FFDE6868</color>
     <color name="red_dark">#934545</color>
+    <color name="newBlue">#2196CB</color>
+    <color name="newTextColor">#77d4f4</color>
+    <color name="blue_light">#dae7ef</color>
+    <color name="blue_facebook">#3b5998</color>
+    <color name="blue_facebook_dark">#FF173574</color>
+    <color name="black_overlay_light">#22000000</color>
+    <color name="red_gplus">#d34836</color>
+    <color name="red_gplus_dark">#FFD72710</color>
+    <color name="green_accept">#43d535</color>
+    <color name="green_accept_dark">#FF15A308</color>
+    <color name="yellow_lime_600">#c0ca33</color>
+    <color name="yellow_lime_dark">#969e28</color>
+    <color name="yellow_gold">#dac226</color>
+    <color name="yellow">#ffd51d</color>
+    <color name="white_background">#fbfbfb</color>
+    <color name="white">#ffffff</color>
+    <color name="pink">#ff69b4</color>
+    <color name="orange">#eda862</color>
+    <color name="black">#000000</color>
+
 </resources>

@@ -1,50 +1,33 @@
-package com.app.jeferson.filmez;
+package com.app.jeferson.filmez.ui.activities;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.jeferson.filmez.util.ActivityStartProperties;
+import com.app.jeferson.filmez.R;
+import com.app.jeferson.filmez.bases.BaseActivity;
 import com.squareup.picasso.Picasso;
 
-public class ImageDetailActivity extends AppCompatActivity implements ActivityStartProperties {
-    private Toolbar toolbar;
+public class ImageDetailActivity extends BaseActivity{
     private ImageView imgPoster;
     private ProgressBar progress;
     private TextView txtTitle;
     private String picture;
     private String title;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_detail);
-
-        setLayout();
-        setProperties();
-        listeners();  
-    }
 
     @Override
     public void setLayout() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         imgPoster = (ImageView) findViewById(R.id.img_poster);
         progress = (ProgressBar) findViewById(R.id.progress);
         txtTitle = (TextView) findViewById(R.id.txt_title);
     }
 
     @Override
-    public void setProperties() {
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("");
-        }
-
+    protected void startProperties() {
+        setToolbar(R.id.toolbar);
         picture = getIntent().getStringExtra("PHOTO");
         title = getIntent().getStringExtra("TITLE");
 
@@ -64,17 +47,23 @@ public class ImageDetailActivity extends AppCompatActivity implements ActivitySt
                     }
                 });
 
+    }
+
+    @Override
+    protected void defineListeners() {
 
     }
 
     @Override
-    public void listeners() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+    protected int getActivityLayout() {
+        return R.layout.activity_image_detail;
     }
+
+    @Override
+    protected Context getContext() {
+        return ImageDetailActivity.this;
+    }
+
+
 
 }

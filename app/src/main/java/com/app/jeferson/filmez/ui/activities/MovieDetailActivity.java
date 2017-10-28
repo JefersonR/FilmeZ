@@ -1,14 +1,13 @@
-package com.app.jeferson.filmez;
+package com.app.jeferson.filmez.ui.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -18,25 +17,19 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.app.jeferson.filmez.connectionFactory.LoggingInterceptor;
-import com.app.jeferson.filmez.connectionFactory.RetrofitInterface;
+import com.app.jeferson.filmez.R;
+import com.app.jeferson.filmez.bases.BaseActivity;
 import com.app.jeferson.filmez.movies.CardViewItems;
 import com.app.jeferson.filmez.movies.MovieDetailModel;
+import com.app.jeferson.filmez.network.connectionService.Interfaces.OnSucess;
 import com.app.jeferson.filmez.realm.RealmController;
-import com.app.jeferson.filmez.util.ActivityStartProperties;
 import com.app.jeferson.filmez.util.ConnectionChecker;
-import com.app.jeferson.filmez.util.Log;
 import com.app.jeferson.filmez.util.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
-
-public class MovieDetailActivity extends AppCompatActivity implements ActivityStartProperties, RetrofitInterface{
+public class MovieDetailActivity extends BaseActivity{
     //UI elements
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbar;
@@ -71,17 +64,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
 
 
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
-        setLayout();
-        setProperties();
-        listeners();
-
-    }
-
     @Override
     public void setLayout() {
         toolbar =  (Toolbar) findViewById(R.id.toolbar);
@@ -113,7 +95,8 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
     }
 
     @Override
-    public void setProperties() {
+    protected void startProperties() {
+
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,7 +121,87 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
                 }
             }
         }
+    }
 
+    @Override
+    protected void defineListeners() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        fabSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(movie != null) {
+                    realmController.persistMovie(movie, new Date());
+                    Snackbar.make(MovieDetailActivity.this, getString(R.string.movie_add));
+                    fabSave.setVisibility(View.GONE);
+                    fabDelete.setVisibility(View.VISIBLE);
+                    inMyList = true;
+                    btnControl();
+
+                }
+
+            }
+        });
+
+        fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(movie != null){
+                    remove(movie.getTitle(), movie.getImdbID());
+                }
+            }
+        });
+
+        btnControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(inMyList){
+                    if(movie != null){
+                        remove(movie.getTitle(), movie.getImdbID());
+                    }
+                }else{
+                    if(movie != null) {
+                        realmController.persistMovie(movie, new Date());
+                        Snackbar.make(MovieDetailActivity.this, getString(R.string.movie_add));
+                        fabSave.setVisibility(View.GONE);
+                        fabDelete.setVisibility(View.VISIBLE);
+                        inMyList = true;
+                        btnControl();
+
+                    }
+                }
+            }
+        });
+        imgPoster.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(MovieDetailActivity.this, ImageDetailActivity.class);
+                intent.putExtra("PHOTO",movie.getPoster());
+                intent.putExtra("TITLE",movie.getTitle());
+                startActivity(intent);
+
+            }
+        });
+    }
+
+    @Override
+    protected int getActivityLayout() {
+        return R.layout.activity_movie_detail;
+    }
+
+    @Override
+    protected Context getContext() {
+        return MovieDetailActivity.this;
     }
 
     private void populate(MovieDetailModel movie) {
@@ -240,77 +303,6 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
         }
     }
 
-    @Override
-    public void listeners() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        fabSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(movie != null) {
-                    realmController.persistMovie(movie, new Date());
-                    Snackbar.make(MovieDetailActivity.this, getString(R.string.movie_add));
-                    fabSave.setVisibility(View.GONE);
-                    fabDelete.setVisibility(View.VISIBLE);
-                    inMyList = true;
-                    btnControl();
-
-                }
-
-            }
-        });
-
-        fabDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(movie != null){
-                    remove(movie.getTitle(), movie.getImdbID());
-                }
-            }
-        });
-
-        btnControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(inMyList){
-                    if(movie != null){
-                        remove(movie.getTitle(), movie.getImdbID());
-                    }
-                }else{
-                    if(movie != null) {
-                        realmController.persistMovie(movie, new Date());
-                        Snackbar.make(MovieDetailActivity.this, getString(R.string.movie_add));
-                        fabSave.setVisibility(View.GONE);
-                        fabDelete.setVisibility(View.VISIBLE);
-                        inMyList = true;
-                        btnControl();
-
-                    }
-                }
-            }
-        });
-        imgPoster.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(MovieDetailActivity.this, ImageDetailActivity.class);
-                intent.putExtra("PHOTO",movie.getPoster());
-                intent.putExtra("TITLE",movie.getTitle());
-                startActivity(intent);
-
-            }
-        });
-    }
-
     private void remove(final String title, final String movieID) {
 
         AlertDialog alerta;
@@ -350,47 +342,22 @@ public class MovieDetailActivity extends AppCompatActivity implements ActivitySt
     }
 
 
-    @Override
-    public void doRequest() {
 
-    }
 
-    @Override
     public void doRequest(String... params) {
-        progress.setVisibility(View.VISIBLE);
-        retrofit.client().interceptors().add(new LoggingInterceptor());
-        Call<MovieDetailModel> call = apiService.searchMovieDetail(params[0]);
-        call.enqueue(new Callback<MovieDetailModel>() {
 
+
+        getPresenter().searchMovieDetail(params[0], new OnSucess() {
             @Override
-            public void onResponse(final Response<MovieDetailModel> response, Retrofit retrofit) {
-                try {
-                    progress.setVisibility(View.GONE);
-                    movie = response.body();
-                    if(movie !=null){
-                        inMyList = false;
-                        populate(movie);
-                    }
-
-
-                } catch (Exception e) {
-                    Log.e("ERROR", e.getMessage());
-                    progress.setVisibility(View.GONE);
-                    Snackbar.make(MovieDetailActivity.this,getString(R.string.connection_fail) );
+            public void onSucessResponse(retrofit2.Response response) {
+                progress.setVisibility(View.GONE);
+                movie = (MovieDetailModel) response.body();
+                if(movie !=null){
+                    inMyList = false;
+                    populate(movie);
                 }
-
             }
-            @Override
-            public void onFailure(Throwable t) {
-                try {
-                    progress.setVisibility(View.GONE);
-                    Snackbar.make(MovieDetailActivity.this,getString(R.string.connection_fail) );
-                }catch (Exception e){
-                    e.getMessage();
-                }
-
-            }
-        });
+        }, progress);
     }
 }
 

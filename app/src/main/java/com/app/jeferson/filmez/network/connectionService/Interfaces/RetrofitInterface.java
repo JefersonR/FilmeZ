@@ -1,10 +1,13 @@
-package com.app.jeferson.filmez.connectionFactory;
+package com.app.jeferson.filmez.network.connectionService.Interfaces;
 
+
+import com.app.jeferson.filmez.network.connectionService.NetworkSetup;
 import com.app.jeferson.filmez.util.ArrayAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -12,23 +15,19 @@ import retrofit.Retrofit;
  */
 public interface RetrofitInterface {
     //Define uma interface para conexão com o servidro.
-    public static final String BASE_URL =  "http://www.omdbapi.com";
-    public Gson gson = new GsonBuilder()
+    final String BASE_URL = "http://www.omdbapi.com";
+
+
+    Gson gson = new GsonBuilder()
             .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
             .registerTypeAdapterFactory(new ArrayAdapterFactory())
             .create();
 
-    public Retrofit retrofit = new Retrofit.Builder()
+    Retrofit retrofit2 = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(NetworkSetup.getClient3())
             .build();
-
-
-    public  EndpointInterface apiService =
-            retrofit.create(EndpointInterface.class);
-
-
-    public void doRequest();
-    public void doRequest(String... params);
+    EndpointInterface apiService2 = retrofit2.create(EndpointInterface.class);
 
 }

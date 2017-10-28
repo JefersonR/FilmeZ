@@ -1,11 +1,10 @@
-package com.app.jeferson.filmez.connectionFactory;
+package com.app.jeferson.filmez.network.connectionService.Interfaces;
+
 
 import com.app.jeferson.filmez.movies.CardViewItems;
 import com.app.jeferson.filmez.movies.MovieDetailModel;
 
-import retrofit.Call;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.Call;
 
 /**
  * Created by jeferson on 22/11/15.
@@ -18,11 +17,12 @@ public interface EndpointInterface {
     Callback for the parsed response is the last parameter
     */
     //Search movies
-    @GET(search_movie)
-    Call<CardViewItems> searchMovie(@Query("s") String search);
+    @retrofit.http.GET(search_movie)
+    Call<CardViewItems> searchMovie(@retrofit.http.Query("s") String search);
 
     //Get details
-    @GET(search_movie_detail)
-    Call<MovieDetailModel> searchMovieDetail(@Query("i") String movieID);
+    @retrofit.http.GET(search_movie_detail)
+    Call<MovieDetailModel> searchMovieDetail(@retrofit.http.Query("i") String movieID);
 
 }
+

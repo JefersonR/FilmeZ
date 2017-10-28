@@ -1,4 +1,4 @@
-package com.app.jeferson.filmez;
+package com.app.jeferson.filmez.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.app.jeferson.filmez.R;
 import com.app.jeferson.filmez.util.Constants;
 
 public class SplashScreenActivity extends AppCompatActivity implements Constants {

@@ -1,4 +1,4 @@
-package com.app.jeferson.filmez;
+package com.app.jeferson.filmez.ui.activities;
 
 
 import android.content.Intent;
@@ -17,9 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.app.jeferson.filmez.fragments.AboutFragment;
-import com.app.jeferson.filmez.fragments.HomeFragment;
-import com.app.jeferson.filmez.fragments.MyMoviesFragment;
+import com.app.jeferson.filmez.R;
+import com.app.jeferson.filmez.ui.fragments.AboutFragment;
+import com.app.jeferson.filmez.ui.fragments.HomeFragment;
+import com.app.jeferson.filmez.ui.fragments.MyMoviesFragment;
 import com.app.jeferson.filmez.util.ActivityStartProperties;
 
 public class MainActivity extends AppCompatActivity implements ActivityStartProperties {
